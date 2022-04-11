@@ -19,14 +19,22 @@ public class Generics {
         gen.printObject(third);
         System.out.println();
 
-        // gen.printBoundedWildCard(first);
+        /**
+         * Невозможно вызвать самый высокий класс в иерархии т.к. ограничение идет до Predator
+         * gen.printBoundedWildCard(first);
+        */
+
         gen.printBoundedWildCard(second);
         gen.printBoundedWildCard(third);
         System.out.println();
 
         gen.printLowerBoundedWildCard(first);
         gen.printLowerBoundedWildCard(second);
-        // gen.printLowerBoundedWildCard(third);
+
+        /**
+         * Невозможно вызвать самый низкий класс в иерархии т.к. ограничение идет от Predator
+         * gen.printLowerBoundedWildCard(third);
+         */
     }
 
     public <T> void printObject(List<T> list) {
