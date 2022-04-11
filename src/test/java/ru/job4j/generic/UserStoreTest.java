@@ -46,7 +46,8 @@ public class UserStoreTest {
     public void whenNoReplaceUserThenNoChangeUsername() {
         UserStore store = new UserStore();
         store.add(new User("1", "Petr"));
-        store.replace("10", new User("10", "Maxim"));
+        boolean res = store.replace("10", new User("10", "Maxim"));
+        assertFalse(res);
         User result = store.findById("1");
         assertThat(result.getUsername(), is("Petr"));
     }
