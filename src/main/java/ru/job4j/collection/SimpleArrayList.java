@@ -18,21 +18,21 @@ public class SimpleArrayList<T> implements List<T> {
 
     @Override
     public void add(T value) {
-        if (container.length == size) {
+        if (container.length < size) {
             expansion();
         }
-            container[size++] = value;
-            modCount++;
+        container[size++] = value;
+        modCount++;
     }
 
     private void expansion() {
-        container = Arrays.copyOf(container, container.length * 2);
+        container = Arrays.copyOf(container, container.length != 0 ? container.length * 2 : 1);
     }
 
     @Override
     public T set(int index, T newValue) {
         Objects.checkIndex(index, container.length);
-        T removable = container[index];
+        T removable = get(index);
         container[index] = newValue;
         modCount++;
         return removable;
@@ -41,7 +41,7 @@ public class SimpleArrayList<T> implements List<T> {
     @Override
     public T remove(int index) {
         Objects.checkIndex(index, container.length);
-        T removable = container[index];
+        T removable = get(index);
         System.arraycopy(Arrays.copyOf(container, container.length), index + 1, container, index, container.length - index - 1);
         size--;
         modCount++;
@@ -64,16 +64,12 @@ public class SimpleArrayList<T> implements List<T> {
     public Iterator<T> iterator() {
         return new Iterator<>() {
             private int cursor;
-            private final T[] data = container;
             private final int mod = modCount;
 
             @Override
             public boolean hasNext() {
                 if (mod != modCount) {
                     throw new ConcurrentModificationException();
-                }
-                while (cursor < size && data[cursor] == null) {
-                    cursor++;
                 }
                 return cursor < size;
             }
@@ -83,7 +79,7 @@ public class SimpleArrayList<T> implements List<T> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                return data[cursor++];
+                return container[cursor++];
             }
 
         };
