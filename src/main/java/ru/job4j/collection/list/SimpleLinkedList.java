@@ -1,6 +1,5 @@
 package ru.job4j.collection.list;
 
-import ru.job4j.collection.SimpleArrayList;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
@@ -44,13 +43,10 @@ public class SimpleLinkedList<E> implements List<E> {
     @Override
     public E get(int index) {
         cursor = first;
-        if (index >= size) {
-                throw new IndexOutOfBoundsException();
-        }
+        Objects.checkIndex(index, size);
         for (int i = 0; i < index; i++) {
             cursor = cursor.next;
         }
-        modCount++;
         return cursor.item;
     }
 
@@ -59,7 +55,6 @@ public class SimpleLinkedList<E> implements List<E> {
         return new Iterator<>() {
             private Node<E> data = first;
             Node<E> next;
-            private int ind;
             private final int mod = modCount;
 
             @Override
@@ -67,7 +62,7 @@ public class SimpleLinkedList<E> implements List<E> {
                 if (mod != modCount) {
                     throw new ConcurrentModificationException();
                 }
-                return ind < size;
+                return data == first && data != null || data == last && data != first;
             }
 
             @Override
@@ -77,7 +72,6 @@ public class SimpleLinkedList<E> implements List<E> {
                 }
                 next = data;
                 data = next.next;
-                ind++;
                 return next.item;
             }
         };
