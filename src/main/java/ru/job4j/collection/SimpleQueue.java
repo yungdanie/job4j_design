@@ -6,16 +6,15 @@ public class SimpleQueue<T> {
     private T rsl;
 
     public T poll() {
+        if (out.size() == 0) {
+            while (in.size() > 0) {
+                out.push(in.pop());
+            }
+        }
         return out.pop();
     }
 
     public void push(T value) {
-        while (out.size() > 0) {
-            in.push(out.pop());
-        }
-        out.push(value);
-        while (in.size() > 0) {
-            out.push(in.pop());
-        }
+        in.push(value);
      }
 }
