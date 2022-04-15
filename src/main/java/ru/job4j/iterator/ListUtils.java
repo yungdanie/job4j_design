@@ -4,8 +4,6 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.toList;
-
 public class ListUtils {
 
     public static <T> void addBefore(List<T> list, int index, T value) {
@@ -24,17 +22,22 @@ public class ListUtils {
         addBefore(list, index + 1, value);
     }
 
-    public static <T> void removeIf(List<T> list, Predicate<T> filter) {
-        list = list.stream()
-                .filter(filter).
-                collect(Collectors.toList());
+    public static <T> List<T> removeIf(List<T> list, Predicate<T> filter) {
+        return list.stream()
+                .filter(filter.negate())
+                .collect(Collectors.toList());
     }
 
-    public static <T> void replaceIf(List<T> list, Predicate<T> filter, T value) {
-       list.stream().filter(filter).forEach(x -> x = value);
+    public static <T> List<T> replaceIf(List<T> list, Predicate<T> filter, T value) {
+        return list.stream()
+                .map(x -> x = filter.test(x) ? value : x)
+                .collect(Collectors.toList());
     }
 
-    public static <T> void removeAll(List<T> list, List<T> elements) {
-
+    public static <T> List<T> removeAll(List<T> list, List<T> elements) {
+        return list.stream().filter(x -> elements
+                .stream()
+                .noneMatch(y -> y.equals(x)))
+                .collect(Collectors.toList());
     }
 }
