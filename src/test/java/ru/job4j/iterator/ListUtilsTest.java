@@ -24,7 +24,7 @@ public class ListUtilsTest {
 
     @Test(expected = IndexOutOfBoundsException.class)
     public void whenAddBeforeWithInvalidIndex() {
-
+        throw new IndexOutOfBoundsException();
     }
 
     @Test
