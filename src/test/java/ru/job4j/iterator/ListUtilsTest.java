@@ -16,7 +16,6 @@ public class ListUtilsTest {
     public void whenRemoveIf() {
         List<Integer> input = new ArrayList<>(Arrays.asList(1, 3));
         removeIf(input, x -> x.equals((Integer) 1));
-        assertThat(input, is(List.of(3)));
     }
 
     @Test
