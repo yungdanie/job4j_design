@@ -1,10 +1,12 @@
 package test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
+
 public class Main {
     public static void main(String[] args) {
-        TestMladshiy mlad = new TestMladshiy();
-        mlad.print();
-        Test starh = new TestMladshiy();
-        starh.print();
+        String a = "vishal";
+        System.out.println(a.hashCode());
     }
 }
