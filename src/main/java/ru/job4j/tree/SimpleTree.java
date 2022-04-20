@@ -3,7 +3,7 @@ package ru.job4j.tree;
 import java.util.*;
 import java.util.function.Predicate;
 
-public class SimpleTree<E extends Comparable<E>> implements Tree<E> {
+public class SimpleTree<E> implements Tree<E> {
     private final Node<E> root;
 
     public SimpleTree(final E root) {
@@ -26,6 +26,7 @@ public class SimpleTree<E extends Comparable<E>> implements Tree<E> {
         return findByPredicate(x -> x.value.equals(value));
     }
 
+    @Override
     public boolean isBoolean() {
         return findByPredicate(x -> x.children.size() > 2).isEmpty();
     }

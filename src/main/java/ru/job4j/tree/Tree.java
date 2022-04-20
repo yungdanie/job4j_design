@@ -2,11 +2,13 @@ package ru.job4j.tree;
 
 import java.util.*;
 
-public interface Tree<E extends Comparable<E>> {
+public interface Tree<E> {
 
     boolean add(E parent, E child);
 
     Optional<Node<E>> findBy(E value);
+
+    boolean isBoolean();
 
     class Node<E> {
         final E value;

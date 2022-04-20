@@ -52,4 +52,27 @@ public class SimpleTreeTest {
         assertTrue(tree.findBy(5).isPresent());
     }
 
+    @Test
+    public void whenTreeIsBinary() {
+        Tree<Integer> tree = new SimpleTree<>(1);
+        tree.add(1, 2);
+        tree.add(1, 3);
+        tree.add(2, 4);
+        tree.add(2, 5);
+        tree.add(5, 10);
+        assertTrue(tree.isBoolean());
+    }
+
+    @Test
+    public void whenTreeIsNotBinary() {
+        Tree<Integer> tree = new SimpleTree<>(1);
+        tree.add(1, 2);
+        tree.add(1, 3);
+        tree.add(2, 4);
+        tree.add(2, 5);
+        tree.add(5, 10);
+        tree.add(5, 11);
+        tree.add(5, 12);
+        assertFalse(tree.isBoolean());
+    }
 }
