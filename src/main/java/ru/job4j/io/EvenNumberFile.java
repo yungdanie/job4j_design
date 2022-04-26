@@ -21,6 +21,8 @@ public class EvenNumberFile {
                     stringBuilder.append(add).append(System.lineSeparator());
                     add = new StringBuilder();
                     last = 1;
+                } else {
+                    add = new StringBuilder();
                 }
             }
             System.out.println(stringBuilder);
