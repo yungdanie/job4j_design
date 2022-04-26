@@ -1,6 +1,7 @@
 package ru.job4j.io;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 
 public class ResultFile {
@@ -8,10 +9,14 @@ public class ResultFile {
         try (FileOutputStream out = new FileOutputStream("result.txt")) {
             int[][] data = multiple(10);
             for (int[] array : data) {
-                out.write(Arrays.toString(array).getBytes());
+                for (int num : array) {
+                    String str = String.valueOf(num);
+                    str = str + ", ";
+                    out.write(str.getBytes());
+                }
                 out.write(System.lineSeparator().getBytes());
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
