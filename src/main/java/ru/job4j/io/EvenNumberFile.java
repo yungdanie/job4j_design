@@ -9,23 +9,18 @@ import java.util.Arrays;
 public class EvenNumberFile {
     public static void main(String[] args) {
         try (FileInputStream in = new FileInputStream("even.txt")) {
-            StringBuilder stringBuilder = new StringBuilder();
+            String string = "";
             StringBuilder add = new StringBuilder();
             int read;
-            int last = 1;
             while ((read = in.read()) != -1) {
-                if (read != 13 && read != 10) {
-                    add.append((char) read);
-                    last = read;
-                } else if (last % 2 == 0) {
-                    stringBuilder.append(add).append(System.lineSeparator());
-                    add = new StringBuilder();
-                    last = 1;
-                } else {
-                    add = new StringBuilder();
+                string = string + (char) read;
+            }
+            for (String num : string.split("\r\n")) {
+                if (Integer.parseInt(num) % 2 == 0) {
+                    add.append(num).append("\r\n");
                 }
             }
-            System.out.println(stringBuilder);
+            System.out.println(add);
         } catch (IOException e) {
             e.printStackTrace();
         }
