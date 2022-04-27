@@ -10,11 +10,11 @@ public class Analizy {
             while (in.ready()) {
                 temp = in.readLine();
                 if (temp.startsWith("400") || temp.startsWith("500")) {
-                    out.write(temp + ";");
+                    out.write(temp.split(" ")[1] + ";");
                     while (in.ready()) {
                         temp = in.readLine();
                         if (temp.startsWith("200") || temp.startsWith("300")) {
-                            out.write(temp + ";" + System.lineSeparator());
+                            out.write(temp.split(" ")[1]  + ";" + System.lineSeparator());
                             break;
                         }
                     }
@@ -23,5 +23,10 @@ public class Analizy {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+        Analizy analizy = new Analizy();
+        analizy.unavailable("server.log", "unavailable.csv");
     }
 }
