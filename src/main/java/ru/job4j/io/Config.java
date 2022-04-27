@@ -24,7 +24,7 @@ public class Config {
                temp = in.readLine();
                if (!temp.startsWith("#") && !temp.isEmpty()) {
                    String[] array = temp.split("=", 2);
-                   if (array.length < 2) {
+                   if (array.length == 1 || array[0].isEmpty() || array[1].isEmpty()) {
                        throw new IllegalArgumentException();
                    }
                    values.put(array[0], array[1]);

@@ -32,6 +32,18 @@ public class ConfigTest {
         assertThat(config.value("kocheshkov"), is("daniel"));
     }
 
+    @Test (expected = IllegalArgumentException.class)
+    public void whenLoadAndIllegalArgumentExc2() {
+        Config config = new Config("./data/prop_with_illegal_pattern2.properties");
+        config.load();
+    }
+
+    @Test (expected = IllegalArgumentException.class)
+    public void whenLoadAndIllegalArgumentExc3() {
+        Config config = new Config("./data/prop_with_illegal_pattern3.properties");
+        config.load();
+    }
+
     @Test
     public void whenLoadFileWithFewSightOfEquals() {
         Config config = new Config("./data/prop_with_few=.properties");
