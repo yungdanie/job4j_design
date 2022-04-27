@@ -23,8 +23,8 @@ public class Config {
            while (in.ready()) {
                temp = in.readLine();
                if (!temp.startsWith("#") && !temp.isEmpty()) {
-                   String[] array = temp.split("=");
-                   if (array.length == 1 || array.length > 2) {
+                   String[] array = temp.split("=", 2);
+                   if (array.length < 1) {
                        throw new IllegalArgumentException();
                    }
                    values.put(array[0], array[1]);

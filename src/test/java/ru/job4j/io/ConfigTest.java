@@ -31,4 +31,11 @@ public class ConfigTest {
         config.load();
         assertThat(config.value("kocheshkov"), is("daniel"));
     }
+
+    @Test
+    public void whenLoadFileWithFewSightOfEquals() {
+        Config config = new Config("./data/prop_with_few=.properties");
+        config.load();
+        assertThat(config.value("daniel"), is("kocheshkov=1"));
+    }
 }
