@@ -1,23 +1,24 @@
-package ru.job4j.question;
+package ru.job4j.io.duplicates;
 
 import java.util.Objects;
 
-public class User {
+public class FileProperty {
 
-    private int id;
+    private long size;
+
     private String name;
 
-    public User(int id, String name) {
-        this.id = id;
+    public FileProperty(long size, String name) {
+        this.size = size;
         this.name = name;
     }
 
-    public int getId() {
-        return id;
+    public long getSize() {
+        return size;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setSize(long size) {
+        this.size = size;
     }
 
     public String getName() {
@@ -36,12 +37,12 @@ public class User {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        User user = (User) o;
-        return id == user.id && Objects.equals(name, user.name);
+        FileProperty that = (FileProperty) o;
+        return size == that.size && Objects.equals(name, that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(size, name);
     }
 }
