@@ -23,13 +23,11 @@ public class DuplicatesVisitor extends SimpleFileVisitor<Path> {
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
         HashSet<Path> set;
         FileProperty fileProperty = new FileProperty(attrs.size(), file.getFileName().toString());
-        set = map.get(fileProperty);
-        if (set == null) {
-            map.put(fileProperty, new HashSet<>());
-            set = map.get(fileProperty);
+        set = map.putIfAbsent(fileProperty, new HashSet<>());
+        if (set != null) {
             set.add(file);
         } else {
-            set.add(file);
+            map.get(fileProperty).add(file);
         }
         return FileVisitResult.CONTINUE;
     }

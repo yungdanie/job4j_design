@@ -7,7 +7,7 @@ import java.nio.file.Path;
 public class DuplicatesFinder {
     public static void main(String[] args) throws IOException {
         DuplicatesVisitor duplicatesVisitor = new DuplicatesVisitor();
-        Files.walkFileTree(Path.of("C:/musor"), duplicatesVisitor);
+        Files.walkFileTree(Path.of("B:/TEST"), duplicatesVisitor);
         duplicatesVisitor.showDuplicates();
     }
 }
