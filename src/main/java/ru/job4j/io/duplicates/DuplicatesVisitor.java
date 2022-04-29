@@ -9,33 +9,27 @@ import java.util.HashSet;
 
 public class DuplicatesVisitor extends SimpleFileVisitor<Path> {
 
-    private HashMap<FileProperty, Path> map = new HashMap<>();
-
-    public HashMap<FileProperty, HashSet<Path>> mapSet = new HashMap<>();
+    private HashMap<FileProperty, HashSet<Path>> map = new HashMap<>();
 
     public void showDuplicates() {
-        if (mapSet != null) {
-            for (HashSet<Path> paths : mapSet.values()) {
-                paths.stream().iterator().forEachRemaining(System.out::println);
+        for (HashSet<Path> paths : map.values()) {
+            if (paths.size() > 1) {
+                paths.forEach(System.out::println);
             }
         }
     }
 
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-        Path path;
+        HashSet<Path> set;
         FileProperty fileProperty = new FileProperty(attrs.size(), file.getFileName().toString());
-        path = map.putIfAbsent(fileProperty, file);
-        if (path != null) {
-            HashSet<Path> temp = mapSet.get(fileProperty);
-            if (temp == null) {
-                mapSet.put(fileProperty, new HashSet<>());
-                temp = mapSet.get(fileProperty);
-                temp.add(file);
-                temp.add(path);
-            } else {
-                temp.add(file);
-            }
+        set = map.get(fileProperty);
+        if (set == null) {
+            map.put(fileProperty, new HashSet<>());
+            set = map.get(fileProperty);
+            set.add(file);
+        } else {
+            set.add(file);
         }
         return FileVisitResult.CONTINUE;
     }
