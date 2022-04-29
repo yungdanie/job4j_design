@@ -15,4 +15,15 @@ public class Search {
         return searcher.getPaths();
     }
 
+    private static void check(String[] args) {
+        if (args.length != 2) {
+            throw new IllegalArgumentException("Root folder does not contain two elements. Usage java -jar dir.jar ROOT_FOLDER.");
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        check(args);
+        search(Paths.get(args[0]), x -> x.getFileName().toString().endsWith(args[1])).forEach(System.out::println);
+    }
+
 }
