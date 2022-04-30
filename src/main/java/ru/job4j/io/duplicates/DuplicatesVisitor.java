@@ -21,14 +21,9 @@ public class DuplicatesVisitor extends SimpleFileVisitor<Path> {
 
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-        HashSet<Path> set;
         FileProperty fileProperty = new FileProperty(attrs.size(), file.getFileName().toString());
-        set = map.putIfAbsent(fileProperty, new HashSet<>());
-        if (set != null) {
-            set.add(file);
-        } else {
-            map.get(fileProperty).add(file);
-        }
+        map.putIfAbsent(fileProperty, new HashSet<>());
+        map.get(fileProperty).add(file);
         return FileVisitResult.CONTINUE;
     }
 }
