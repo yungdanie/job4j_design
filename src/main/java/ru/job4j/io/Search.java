@@ -17,7 +17,11 @@ public class Search {
 
     private static void check(String[] args) {
         if (args.length != 2) {
-            throw new IllegalArgumentException("Root folder does not contain two elements. Usage java -jar dir.jar ROOT_FOLDER.");
+            throw new IllegalArgumentException("Root folder does not contain two elements. Usage java -jar dir.jar ROOT_FOLDER FILE_EXTENSION");
+        } else if (!Files.exists(Paths.get(args[0]))) {
+            throw new IllegalArgumentException("Root folder does not exist. Usage java -jar dir.jar ROOT_FOLDER FILE_EXTENSION");
+        } else if (!Files.isDirectory(Paths.get(args[0]))) {
+            throw new IllegalArgumentException("Root folder is not directory. Usage java -jar dir.jar ROOT_FOLDER FILE_EXTENSION");
         }
     }
 
