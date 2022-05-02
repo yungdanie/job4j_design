@@ -27,7 +27,9 @@ public class Search {
 
     public static void main(String[] args) throws IOException {
         check(args);
-        search(Paths.get(args[0]), x -> x.getFileName().toString().endsWith(args[1])).forEach(System.out::println);
+        search(Paths.get(args[0]),
+                x -> x.getFileName().toString().endsWith(args[1]))
+                .forEach(System.out::println);
     }
 
 }
