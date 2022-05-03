@@ -43,11 +43,23 @@ public class Zip {
         }
     }
 
+    private static boolean checkArg(Path directory, Path output) {
+        if (!Files.exists(directory)) {
+            throw new IllegalArgumentException("Illegal directory. Archived directory does not exist.");
+        } else if (!output.toString().endsWith(".zip")) {
+            throw new IllegalArgumentException("Illegal archive name pattern. Archive name does not end with \".zip\".");
+        } else if (!Files.exists(output.getParent())) {
+            throw new IllegalArgumentException("Illegal archive name. Parent directory of archive does not exist.");
+        }
+        return true;
+    }
+
     public static void main(String[] args) throws IOException {
         ArgsName argsName = ArgsName.of(args);
         Path d = Paths.get(argsName.get("d"));
         String e = argsName.get("e");
         Path o = Paths.get(argsName.get("o"));
+        checkArg(d, o);
         Zip zip = new Zip(d);
         try (ZipOutputStream out = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(o.toString())))) {
             if (Files.isDirectory(d)) {
