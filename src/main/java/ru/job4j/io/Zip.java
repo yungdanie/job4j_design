@@ -43,7 +43,7 @@ public class Zip {
         }
     }
 
-    private static boolean checkArg(Path directory, Path output) {
+    private static void checkArg(Path directory, Path output) {
         if (!Files.exists(directory)) {
             throw new IllegalArgumentException("Illegal directory. Archived directory does not exist.");
         } else if (!output.toString().endsWith(".zip")) {
@@ -51,10 +51,16 @@ public class Zip {
         } else if (!Files.exists(output.getParent())) {
             throw new IllegalArgumentException("Illegal archive name. Parent directory of archive does not exist.");
         }
-        return true;
+    }
+
+    private static void checkNumOfArg(String[] arg) {
+        if (arg.length != 3) {
+            throw new IllegalArgumentException("Amount of arguments is not equal to 3");
+        }
     }
 
     public static void main(String[] args) throws IOException {
+        checkNumOfArg(args);
         ArgsName argsName = ArgsName.of(args);
         Path d = Paths.get(argsName.get("d"));
         String e = argsName.get("e");
