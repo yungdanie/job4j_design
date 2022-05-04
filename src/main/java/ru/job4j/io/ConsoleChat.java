@@ -31,19 +31,20 @@ public class ConsoleChat {
         Scanner scanner = new Scanner(System.in);
         do {
             logs.add(answer);
+            System.out.println(answer);
             current = scanner.nextLine();
             logs.add(String.format("%s %s", "User:", current));
-            if (current.equals(STOP)) {
-                while (!current.equals(CONTINUE)) {
+            if (STOP.equals(current)) {
+                while (!CONTINUE.equals(current)) {
                     current = scanner.nextLine();
                     logs.add(String.format("%s %s", "User:", current));
-                    if (current.equals(OUT)) {
+                    if (OUT.equals(current)) {
                         return;
                     }
                 }
             }
             answer = String.format("%s %s", "Console:", phrases.get(random.nextInt(phrases.size() - 1)));
-        } while (!current.equals(OUT));
+        } while (!OUT.equals(current));
         saveLog(logs);
     }
 
