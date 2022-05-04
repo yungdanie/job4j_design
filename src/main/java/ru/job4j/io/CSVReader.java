@@ -35,9 +35,23 @@ public class CSVReader {
 
             result.add(System.lineSeparator());
         }
-        try (BufferedWriter out = new BufferedWriter(new FileWriter(argsName.get("out")))) {
-            for (String s : result) {
-                out.write(s);
+        writeToFile(argsName.get("out"), result);
+    }
+
+    private static void writeToFile(String path, ArrayList<String> result) {
+        if ("stdout".equals(path)) {
+            try (PrintWriter out = new PrintWriter(System.out)) {
+                for (String s : result) {
+                    out.write(s);
+                }
+            }
+        } else {
+            try (BufferedWriter out = new BufferedWriter(new FileWriter(path))) {
+                for (String s : result) {
+                    out.write(s);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -62,9 +76,6 @@ public class CSVReader {
         }
         if (args.get("delimiter").isEmpty()) {
             throw new IllegalArgumentException("Delimiter is not specified");
-        }
-        if (!args.get("out").equals("stdout") && !Files.exists(Paths.get(args.get("out")).getParent())) {
-            throw new IllegalArgumentException("Illegal result file");
         }
     }
 
