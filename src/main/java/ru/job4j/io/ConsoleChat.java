@@ -72,11 +72,10 @@ public class ConsoleChat {
         }
     }
 
-    private static boolean checkPath(String path) {
+    private static void checkPath(String path) {
         if (!Files.exists(Paths.get(path))) {
             throw new IllegalArgumentException("File with bot answers does not exist");
         }
-        return true;
     }
 
     public static void main(String[] args) {
