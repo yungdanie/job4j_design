@@ -10,10 +10,22 @@ public class UsageLog4j {
 
     public static void main(String[] args) {
         BasicConfigurator.configure();
-        LOG.trace("trace message");
-        LOG.debug("debug message");
-        LOG.info("info message");
-        LOG.warn("warn message");
-        LOG.error("error message");
+        int integer = 13;
+        long longer = 14;
+        short shorted = 15;
+        double doubled = 15.5;
+        float floated = 16.7656f;
+        byte byted = 1;
+        char charted = 'a';
+        boolean bool = true;
+        LOG.debug("Integer : {}, Longer : {}, Shorted : {}, Doubled : {}, Floated : {}, Byted : {}, Charted : {}, Boolean :{}",
+                integer,
+                longer,
+                shorted,
+                doubled,
+                floated,
+                byted,
+                charted,
+                bool);
     }
 }
