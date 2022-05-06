@@ -3,14 +3,34 @@ package ru.job4j.serialization.json;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.Arrays;
 
+@XmlRootElement(name = "Object")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Object {
-    private final int number = 3;
-    private final boolean cond = true;
-    private final String str = "privet";
-    private final SimpleObject simpleObject = new SimpleObject(str);
-    private final int[] numbers = {1, 2, 3};
+    @XmlAttribute
+    private int number = 3;
+
+    @XmlAttribute
+    private boolean cond = true;
+
+    @XmlAttribute
+    private String str = "privet";
+
+    private SimpleObject simpleObject = new SimpleObject(str);
+    private int[] numbers = {1, 2, 3};
+
+    public Object() {
+    }
 
     @Override
     public String toString() {
@@ -24,20 +44,22 @@ public class Object {
         return sb.toString();
     }
 
-    public String toGson(Object object) {
-        Gson gson = new GsonBuilder().create();
-        String gsonObject = gson.toJson(object);
-        System.out.println(gsonObject);
-        return gsonObject;
-    }
-
-    public Object fromGson(String gsonStr) {
-        Gson gson = new GsonBuilder().create();
-        return gson.fromJson(gsonStr, Object.class);
-    }
-
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Object object = new Object();
-        System.out.println(object.fromGson(object.toGson(object)));
+        JAXBContext context = JAXBContext.newInstance(Object.class);
+        Marshaller marshaller = context.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+        String xml = "";
+        try (StringWriter writer = new StringWriter()) {
+            marshaller.marshal(object, writer);
+            xml = writer.getBuffer().toString();
+            System.out.println(xml);
+        }
+        Unmarshaller unmarshaller = context.createUnmarshaller();
+        try (StringReader reader = new StringReader(xml)) {
+            Object result = (Object) unmarshaller.unmarshal(reader);
+            System.out.println(result);
+        }
+
     }
 }
