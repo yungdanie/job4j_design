@@ -1,15 +1,16 @@
 package ru.job4j.serialization.json;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement(name = "SimpleObject")
-@XmlAccessorType(XmlAccessType.FIELD)
 public class SimpleObject {
-    @XmlAttribute
+
     private String str;
+
+    public String getStr() {
+        return str;
+    }
+
+    public void setStr(String str) {
+        this.str = str;
+    }
 
     public SimpleObject() {
     }

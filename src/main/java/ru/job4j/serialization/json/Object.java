@@ -1,35 +1,43 @@
 package ru.job4j.serialization.json;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
-import java.io.StringReader;
-import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
-@XmlRootElement(name = "Object")
-@XmlAccessorType(XmlAccessType.FIELD)
 public class Object {
-    @XmlAttribute
     private int number = 3;
 
-    @XmlAttribute
     private boolean cond = true;
 
-    @XmlAttribute
     private String str = "privet";
 
     private SimpleObject simpleObject = new SimpleObject(str);
     private int[] numbers = {1, 2, 3};
 
     public Object() {
+    }
+
+    public SimpleObject getSimpleObject() {
+        return simpleObject;
+    }
+
+    public int[] getNumbers() {
+        return numbers;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public boolean isCond() {
+        return cond;
+    }
+
+    public String getStr() {
+        return str;
     }
 
     @Override
@@ -46,20 +54,21 @@ public class Object {
 
     public static void main(String[] args) throws Exception {
         Object object = new Object();
-        JAXBContext context = JAXBContext.newInstance(Object.class);
-        Marshaller marshaller = context.createMarshaller();
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-        String xml = "";
-        try (StringWriter writer = new StringWriter()) {
-            marshaller.marshal(object, writer);
-            xml = writer.getBuffer().toString();
-            System.out.println(xml);
-        }
-        Unmarshaller unmarshaller = context.createUnmarshaller();
-        try (StringReader reader = new StringReader(xml)) {
-            Object result = (Object) unmarshaller.unmarshal(reader);
-            System.out.println(result);
-        }
+        JSONObject jsonSimpleObject = new JSONObject("{\"str\" : \"privet\"}");
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        JSONArray jsonNum = new JSONArray(list);
 
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("number", object.getNumber());
+        jsonObject.put("cond", object.isCond());
+        jsonObject.put("str", object.getStr());
+        jsonObject.put("simpleObject", jsonSimpleObject);
+        jsonObject.put("numbers", jsonNum);
+
+        System.out.println(jsonObject.toString());
+        System.out.println(new JSONObject(object).toString());
     }
 }
