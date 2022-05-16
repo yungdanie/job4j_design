@@ -1,12 +1,51 @@
-create table cats (
+create table users(
 	id serial PRIMARY KEY,
 	name text,
-	age integer,
-	birthday date
+	role_id references roles(id)
 );
-insert into cats (name, age, birthday) values ('пуся', 17, '1998-01-08'),
-									('котя', 5, '1995-03-13'),
-									('мотя', 10, '2001-10-25');
-update cats set name = 'персик' WHERE (cats.age = 17);
-delete from cats;
-select * from cats;
+
+create table roles(
+	id serial PRIMARY KEY,
+	role_name text
+);
+
+create table rules(
+	id serial PRIMARY KEY,
+	name text
+);
+
+create table role_rules(
+	id serial PRIMARY KEY,
+	role_id references roles(id),
+	rule_id references rules(id)
+);
+
+
+create table item(
+	id serial PRIMARY KEY,
+	user_id references users(id),
+	category_id references category(id)
+	state_id references state(id)
+);
+
+create table comments(
+	id serial PRIMARY KEY,
+	comment text,
+	item_id references item(id)
+);
+
+create table attachs(
+	id serial PRIMARY KEY,
+	attachs text,
+	item_id references item(id)
+);
+
+create table category(
+	id serial PRIMARY KEY,
+	category text
+);
+
+create table state(
+	id serial PRIMARY KEY,
+	state text
+);
