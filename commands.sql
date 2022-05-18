@@ -1,3 +1,4 @@
+
 select product.name from product where type_id = (select id from type where type.name = 'СЫР');
 
 select product.name from product where product.name ilike '%мороженое%';
@@ -16,4 +17,5 @@ group by s.id
 having count(*) < 10;
 
 select s.name, product.name from product join type as s on s.id = product.type_id;
+
 
