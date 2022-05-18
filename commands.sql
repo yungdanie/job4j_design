@@ -5,7 +5,8 @@ select product.name from product where product.name ilike '%мороженое%'
 
 select product.name from product where current_date > expired_date;
 
-select max(product.price) from product;
+select price from product
+where price = (select max(price) from product);
 
 select s.name, count(*) from product join type as s on s.id = product.type_id
 group by s.id;
