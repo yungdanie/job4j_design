@@ -6,9 +6,12 @@ import java.util.Properties;
 
 public class Config {
 
+    private String path;
+
     private final Properties prop = new Properties();
 
-    private Config() {
+    private Config(String properties) {
+        this.path = properties;
     }
 
     private void load(InputStream io) {
@@ -23,10 +26,10 @@ public class Config {
         return prop.getProperty(key);
     }
 
-    public static Config getConfig() {
-        Config config = new Config();
+    public static Config getConfig(String properties) {
+        Config config = new Config(properties);
         ClassLoader classLoader = config.getClass().getClassLoader();
-        config.load(classLoader.getResourceAsStream("app.properties"));
+        config.load(classLoader.getResourceAsStream(properties));
         return config;
     }
 }

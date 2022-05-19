@@ -7,7 +7,7 @@ import java.util.StringJoiner;
 
 public class TableEditor implements AutoCloseable {
 
-    private static Config config = Config.getConfig();
+    private static Config config = Config.getConfig("app.properties");
 
     private Connection connection;
 
