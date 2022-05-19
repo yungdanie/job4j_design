@@ -1,9 +1,13 @@
 package ru.job4j.serialization.json;
 
-public class SimpleObject {
+import java.io.*;
+import java.nio.file.Path;
+import java.util.Formatter;
+import java.util.Scanner;
+
+public class SimpleObject implements Serializable {
 
     private String str;
-
     public SimpleObject() {
     }
 
@@ -17,5 +21,15 @@ public class SimpleObject {
         sb.append("str='").append(str).append('\'');
         sb.append('}');
         return sb.toString();
+    }
+
+
+    public static void main(String[] args) {
+        SimpleObject object = new SimpleObject();
+        try (ObjectOutputStream abc = new ObjectOutputStream(new FileOutputStream("class.txt"))) {
+            abc.writeObject(object);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

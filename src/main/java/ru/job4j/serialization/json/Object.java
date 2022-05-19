@@ -1,5 +1,6 @@
 package ru.job4j.serialization.json;
 
+import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -69,6 +70,9 @@ public class Object {
         jsonObject.put("numbers", jsonNum);
 
         System.out.println(jsonObject.toString());
-        System.out.println(new JSONObject(object).toString());
+        JSONObject abc = new JSONObject(object);
+        Gson gson = new Gson();
+        Object aa = gson.fromJson(abc.toString(), Object.class);
+        System.out.println(aa.cond);
     }
 }

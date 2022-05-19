@@ -1,9 +1,0 @@
-<?xml version="1.1" encoding="UTF-8" ?>
-<object number="3" cond ="true" str ="privet">
-    <simpleObject str ="privet"/>
-    <numberses>
-        <numbers>1</numbers>
-        <numbers>2</numbers>
-        <numbers>3</numbers>
-    </numberses>
-</object>
