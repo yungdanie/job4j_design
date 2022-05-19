@@ -46,9 +46,10 @@ public class TableEditor implements AutoCloseable {
             statement.executeUpdate(sql);
             String isExists = String.format("SELECT EXISTS (SELECT * FROM information_schema.columns where table_name = '%s')", tableName);
             statement.executeQuery(isExists);
-            ResultSet set = statement.getResultSet();
-            set.next();
-            System.out.println("Таблица существует: " + set.getBoolean(1));
+            try (ResultSet set = statement.getResultSet()) {
+                set.next();
+                System.out.println("Таблица существует: " + set.getBoolean(1));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -93,15 +94,16 @@ public class TableEditor implements AutoCloseable {
         var buffer = new StringJoiner(rowSeparator, rowSeparator, rowSeparator);
         buffer.add(header);
         try (Statement statement = connection.createStatement()) {
-            ResultSet set = statement.executeQuery(
+            try (ResultSet set = statement.executeQuery(
                     String.format("select * from %s", tableName)
-            );
-            ResultSetMetaData metaData = set.getMetaData();
-            for (int i = 1; i <= metaData.getColumnCount(); i++) {
-                buffer.add(String.format("%-15s|%-15s%n", metaData.getColumnName(i), metaData.getColumnTypeName(i)));
-            }
-            while (set.next()) {
-                buffer.add("values:" + set.getString(2));
+            )) {
+                ResultSetMetaData metaData = set.getMetaData();
+                for (int i = 1; i <= metaData.getColumnCount(); i++) {
+                    buffer.add(String.format("%-15s|%-15s%n", metaData.getColumnName(i), metaData.getColumnTypeName(i)));
+                }
+                while (set.next()) {
+                    buffer.add("values:" + set.getString("name"));
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
