@@ -17,4 +17,4 @@ select * from departments d right join employees e on e.department_id = d.id whe
 select * from departments d left join employees e on e.department_id = d.id where e.department_id is not null;
 
 
-select t1.gender as Пол, t2.name, t2.gender, t2.name from teens t1 cross join teens t2 where t1.gender != t2.gender;
+select t1.gender, t1.name, t2.gender, t2.name from teens t1 cross join teens t2 where t1.gender = 'муж' and t2.gender = 'жен';
