@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 public class Connection {
     private static java.sql.Connection getConnection() throws ClassNotFoundException, SQLException {
-        Config config = Config.getConfig();
+        Config config = Config.getConfig("app.properties");
         Class.forName(config.get("driver"));
         return DriverManager.getConnection(config.get("url"), config.get("login"), config.get("password"));
     }
