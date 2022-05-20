@@ -96,8 +96,10 @@ public class TableEditor implements AutoCloseable {
 
     @Override
     public void close() throws Exception {
-        if (connection != null && statement != null) {
+        if (connection != null) {
             connection.close();
+        }
+        if (statement != null) {
             statement.close();
         }
     }
