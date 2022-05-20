@@ -11,11 +11,13 @@ public class TableEditor implements AutoCloseable {
 
     private static Properties properties = getProp();
 
-    private Connection connection = getConnection();
+    private Connection connection;
 
-    private Statement statement = getStatement();
+    private Statement statement;
 
     public TableEditor() throws SQLException, ClassNotFoundException {
+        connection = getConnection();
+        statement = getStatement();
     }
 
     private Statement getStatement() throws SQLException {
@@ -38,10 +40,9 @@ public class TableEditor implements AutoCloseable {
     }
 
     public void createTable(String tableName) throws SQLException {
-        String sql = String.format("create table if not exists %s(%s, %s)",
+        String sql = String.format("create table if not exists %s(%s)",
                 tableName,
-                "id serial primary key",
-                properties.getProperty("arguments"));
+                "id serial primary key");
         statement.executeUpdate(sql);
         System.out.println(getTableScheme(tableName));
     }
@@ -50,31 +51,25 @@ public class TableEditor implements AutoCloseable {
         String sql = String.format("drop table if exists %s",
                 tableName);
         statement.executeUpdate(sql);
-        String isExists = String.format("SELECT EXISTS (SELECT * FROM information_schema.columns where table_name = '%s')", tableName);
-        statement.executeQuery(isExists);
-        try (ResultSet set = statement.getResultSet()) {
-            set.next();
-            System.out.println("Таблица существует: " + set.getBoolean(1));
-        }
     }
 
     public void addColumn(String tableName, String columnName) throws SQLException {
-        String sql = String.format("insert into %s(name) values %s", tableName,  columnName);
+        String sql = String.format("alter table %s add IF NOT EXISTS %s %s", tableName,  columnName, "text");
         statement.executeUpdate(sql);
         System.out.println(getTableScheme(tableName));
     }
 
     public void dropColumn(String tableName, String columnName) throws SQLException {
-        String sql = String.format("delete from %s where %1$s.name = %s", tableName,  columnName);
+        String sql = String.format("alter table %s drop column IF EXISTS %s", tableName,  columnName);
         statement.executeUpdate(sql);
         System.out.println(getTableScheme(tableName));
     }
 
     public void renameColumn(String tableName, String columnName, String newColumnName) throws SQLException {
-        String sql = String.format("update %s set name = %s where %1$s.name = %s",
+        String sql = String.format("alter table %s rename column %s to %s",
                 tableName,
-                newColumnName,
-                columnName);
+                columnName,
+                newColumnName);
         statement.executeUpdate(sql);
         System.out.println(getTableScheme(tableName));
     }
@@ -102,6 +97,7 @@ public class TableEditor implements AutoCloseable {
     public void close() throws Exception {
         if (connection != null) {
             connection.close();
+            statement.close();
         }
     }
 
