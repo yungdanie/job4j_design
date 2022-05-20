@@ -17,9 +17,9 @@ public class ImportDB {
     private final Properties properties;
     private final String dump;
 
-    public ImportDB(String resource) {
+    public ImportDB(String fileToDump, String resource) {
         this.properties = getProp(resource);
-        this.dump = properties.getProperty("path_to_dump");
+        this.dump = fileToDump;
     }
 
     private static Properties getProp(String resource) {
@@ -80,7 +80,7 @@ public class ImportDB {
 
 
     public static void main(String[] args) throws Exception {
-        ImportDB db = new ImportDB("import.properties");
+        ImportDB db = new ImportDB("import.txt", "import.properties");
         db.importDB();
     }
 }
