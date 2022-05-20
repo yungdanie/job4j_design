@@ -9,13 +9,14 @@ import java.util.StringJoiner;
 
 public class TableEditor implements AutoCloseable {
 
-    private static Properties properties = getProp();
+    private static Properties properties;
 
     private Connection connection;
 
     private Statement statement;
 
-    public TableEditor() throws SQLException, ClassNotFoundException {
+    public TableEditor(String resource) throws SQLException, ClassNotFoundException {
+        properties = getProp(resource);
         connection = getConnection();
         statement = getStatement();
     }
@@ -24,9 +25,9 @@ public class TableEditor implements AutoCloseable {
         return connection.createStatement();
     }
 
-    private static Properties getProp() {
+    private static Properties getProp(String resource) {
         Properties prop = new Properties();
-        try (InputStream in = TableEditor.class.getClassLoader().getResourceAsStream("app.properties")) {
+        try (InputStream in = TableEditor.class.getClassLoader().getResourceAsStream(resource)) {
             prop.load(in);
         } catch (IOException e) {
             e.printStackTrace();
@@ -102,7 +103,7 @@ public class TableEditor implements AutoCloseable {
     }
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        try (TableEditor editor = new TableEditor()) {
+        try (TableEditor editor = new TableEditor("app.properties")) {
             try (Statement statement = editor.statement) {
                 String tableName =  properties.getProperty("table_name");
                 editor.createTable(tableName);
