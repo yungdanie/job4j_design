@@ -1,5 +1,7 @@
 package spammer;
 
+import ru.job4j.jdbc.TableEditor;
+
 import java.io.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,14 +17,14 @@ public class ImportDB {
     private final Properties properties;
     private final String dump;
 
-    public ImportDB() {
-        this.properties = getProp();
+    public ImportDB(String resource) {
+        this.properties = getProp(resource);
         this.dump = properties.getProperty("path_to_dump");
     }
 
-    private static Properties getProp() {
+    private static Properties getProp(String resource) {
         Properties prop = new Properties();
-        try (InputStream in = ImportDB.class.getClassLoader().getResourceAsStream("import.properties")) {
+        try (InputStream in = TableEditor.class.getClassLoader().getResourceAsStream(resource)) {
             prop.load(in);
         } catch (IOException e) {
             e.printStackTrace();
@@ -78,7 +80,7 @@ public class ImportDB {
 
 
     public static void main(String[] args) throws Exception {
-        ImportDB db = new ImportDB();
+        ImportDB db = new ImportDB("import.properties");
         db.importDB();
     }
 }
