@@ -96,7 +96,7 @@ public class TableEditor implements AutoCloseable {
 
     @Override
     public void close() throws Exception {
-        if (connection != null) {
+        if (connection != null && statement != null) {
             connection.close();
             statement.close();
         }
@@ -104,14 +104,12 @@ public class TableEditor implements AutoCloseable {
 
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
         try (TableEditor editor = new TableEditor("app.properties")) {
-            try (Statement statement = editor.statement) {
-                String tableName =  properties.getProperty("table_name");
-                editor.createTable(tableName);
-                editor.addColumn(tableName, properties.getProperty("values"));
-                editor.renameColumn(tableName, properties.getProperty("rename"), properties.getProperty("new_column_name"));
-                editor.dropColumn(tableName, properties.getProperty("column_to_delete"));
-                editor.dropTable(tableName);
-            }
+            String tableName =  properties.getProperty("table_name");
+            editor.createTable(tableName);
+            editor.addColumn(tableName, properties.getProperty("values"));
+            editor.renameColumn(tableName, properties.getProperty("rename"), properties.getProperty("new_column_name"));
+            editor.dropColumn(tableName, properties.getProperty("column_to_delete"));
+            editor.dropTable(tableName);
         } catch (Exception e) {
             e.getStackTrace();
         }
